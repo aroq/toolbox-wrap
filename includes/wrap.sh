@@ -52,4 +52,3 @@ function _toolbox_wrap_generate_env_vars_file() {
   _log TRACE "End '_toolbox_wrap_generate_env_vars_file' function with args: $*"
   echo "${generated_env_file}"
 }
-

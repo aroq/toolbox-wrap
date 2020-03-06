@@ -28,13 +28,13 @@ export TOOLBOX_TOOL_DIRS="toolbox"
 {{ end -}}
 
 {{ if has .task "cmd" -}}
-CMD={{ .task.cmd}}
+export TOOLBOX_TOOL={{ .task.cmd}}
 {{ else }}
-CMD=
+TOOLBOX_TOOL=
 {{ end -}}
 
 if [ $# -eq 0 ]; then
-  toolbox_wrap_exec "${CMD}"
+  toolbox_wrap_exec "${TOOLBOX_TOOL}"
 else
-  toolbox_wrap_exec "${CMD}" "${@}"
+  toolbox_wrap_exec "${TOOLBOX_TOOL}" "${@}"
 fi
