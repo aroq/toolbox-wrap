@@ -34,8 +34,7 @@ CMD=
 {{ end -}}
 
 if [ $# -eq 0 ]; then
-  toolbox_wrap_exec_tool "${CMD}"
+  toolbox_wrap_exec "${CMD}"
 else
-  toolbox_wrap_exec_tool "${CMD}" "${@}"
+  toolbox_wrap_exec "${CMD}" "${@}"
 fi
-
