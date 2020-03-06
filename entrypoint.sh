@@ -34,11 +34,14 @@ fi
 
 _log DEBUG "TOOLBOX_TOOL_PATH=\"${TOOLBOX_TOOL_PATH}\""
 _log TRACE "entrypoint.sh: Execute entrypoint in ${TOOLBOX_WRAP_ENTRYPOINT_MODE} mode"
+_log TRACE "Env vars inside docker image:"
+_log TRACE "$(env)"
 
 case "$TOOLBOX_WRAP_ENTRYPOINT_MODE" in
   vars)
     echo "TOOLBOX_TOOL_PATH=\"${TOOLBOX_TOOL_PATH}\"";;
   run)
+    _log DEBUG "Execute tool: ${TOOLBOX_TOOL_PATH} $*"
     ${TOOLBOX_TOOL_PATH} "$@";;
 esac
 

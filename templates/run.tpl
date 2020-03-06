@@ -30,7 +30,7 @@ export TOOLBOX_TOOL_DIRS="toolbox"
 {{ if has .task "cmd" -}}
 export TOOLBOX_TOOL={{ .task.cmd}}
 {{ else }}
-TOOLBOX_TOOL=
+export TOOLBOX_TOOL="tools/${TOOLBOX_TOOL_NAME}"
 {{ end -}}
 
 if [ $# -eq 0 ]; then
