@@ -11,14 +11,14 @@ TOOLBOX_TOOL_DIRS=${TOOLBOX_TOOL_DIRS:-toolbox}
 TOOLBOX_WRAP_ENTRYPOINT_MODE=${TOOLBOX_WRAP_ENTRYPOINT_MODE:-run}
 
 _log TRACE "entrypoint.sh: Inside docker (aroq/toolbox-wrap)"
-_log DEBUG "entrypoint.sh: TOOLBOX_TOOL: ${TOOLBOX_TOOL}"
-_log DEBUG "entrypoint.sh: TOOLBOX_TOOL_DIRS: ${TOOLBOX_TOOL_DIRS}"
+_log DEBUG "TOOLBOX_TOOL: ${TOOLBOX_TOOL}"
+_log DEBUG "TOOLBOX_TOOL_DIRS: ${TOOLBOX_TOOL_DIRS}"
 
 if [ ! -f "${TOOLBOX_TOOL}" ]; then
 IFS=" "
 for i in $(echo "$TOOLBOX_TOOL_DIRS" | sed "s/,/ /g")
 do
-  _log DEBUG "entrypoint.sh: Check if tool exists at path: ${i}/${TOOLBOX_TOOL}"
+  _log DEBUG "Check if tool exists at path: ${i}/${TOOLBOX_TOOL}"
   if [[ -f "${i}/${TOOLBOX_TOOL}" ]]; then
     TOOLBOX_TOOL_PATH="${i}/${TOOLBOX_TOOL}"
     break
@@ -28,10 +28,11 @@ fi
 
 if [[ -z ${TOOLBOX_TOOL_PATH} ]]; then
   echo "TOOLBOX_TOOL_PATH: NOT FOUND!"
+  _log ERROR "TOOLBOX_TOOL_PATH: NOT FOUND!"
   exit 1
 fi
 
-_log DEBUG "entrypoint.sh: TOOLBOX_TOOL_PATH=\"${TOOLBOX_TOOL_PATH}\""
+_log DEBUG "TOOLBOX_TOOL_PATH=\"${TOOLBOX_TOOL_PATH}\""
 _log TRACE "entrypoint.sh: Execute entrypoint in ${TOOLBOX_WRAP_ENTRYPOINT_MODE} mode"
 
 case "$TOOLBOX_WRAP_ENTRYPOINT_MODE" in
