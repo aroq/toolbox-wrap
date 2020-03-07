@@ -1,3 +1,6 @@
+Version 0.1.12:
+ - Remove export TOOLBOX_TOOL_DIRS="toolbox" default value
+
 Version 0.1.11:
  - Update docker image version
 
