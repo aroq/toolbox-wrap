@@ -3,7 +3,7 @@
 # Set strict bash mode
 set -euo pipefail
 
-. /toolbox-utils/includes/log.sh
+. /toolbox/toolbox-utils/includes/log.sh
 
 TOOLBOX_TOOL=${TOOLBOX_TOOL:-}
 TOOLBOX_TOOL_PATH=${TOOLBOX_TOOL_PATH:-}
