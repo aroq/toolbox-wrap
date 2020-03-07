@@ -27,8 +27,7 @@ done
 fi
 
 if [[ -z ${TOOLBOX_TOOL_PATH} ]]; then
-  echo "TOOLBOX_TOOL_PATH: NOT FOUND!"
-  _log ERROR "TOOLBOX_TOOL_PATH: NOT FOUND!"
+  _log ERROR "TOOLBOX_TOOL_PATH: ${TOOLBOX_TOOL_PATH} NOT FOUND!"
   exit 1
 fi
 
