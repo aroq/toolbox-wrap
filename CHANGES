@@ -1,3 +1,6 @@
+Version 0.1.13:
+ - Add fd to Dockerfile
+
 Version 0.1.12:
  - Remove export TOOLBOX_TOOL_DIRS="toolbox" default value
 
