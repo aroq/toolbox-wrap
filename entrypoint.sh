@@ -5,7 +5,7 @@ set -euo pipefail
 
 . /toolbox/toolbox-utils/includes/log.sh
 
-TOOLBOX_TOOL=${TOOLBOX_TOOL:-}
+TOOLBOX_TOOL=${TOOLBOX_TOOL:-${1}}
 TOOLBOX_TOOL_PATH=${TOOLBOX_TOOL_PATH:-}
 TOOLBOX_TOOL_DIRS=${TOOLBOX_TOOL_DIRS:-toolbox}
 TOOLBOX_WRAP_ENTRYPOINT_MODE=${TOOLBOX_WRAP_ENTRYPOINT_MODE:-run}
@@ -40,6 +40,7 @@ case "$TOOLBOX_WRAP_ENTRYPOINT_MODE" in
   vars)
     echo "TOOLBOX_TOOL_PATH=\"${TOOLBOX_TOOL_PATH}\"";;
   run)
+    shift
     _log DEBUG "Execute tool: ${TOOLBOX_TOOL_PATH} $*"
     ${TOOLBOX_TOOL_PATH} "$@";;
 esac
