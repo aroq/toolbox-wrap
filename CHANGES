@@ -1,3 +1,6 @@
+Version 0.1.15:
+ - Update image version
+
 Version 0.1.14:
  - Change entrypoint args handling
 
