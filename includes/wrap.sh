@@ -14,8 +14,6 @@ function toolbox_wrap_exec() {
     _toolbox_wrap_prepare_env_vars "${1}"
   fi
 
-  shift
-
   toolbox_docker_exec "$@"
 
   _log TRACE "End 'toolbox_wrap_exec' function"
@@ -46,7 +44,9 @@ function _toolbox_wrap_generate_env_vars_file() {
     TOOLBOX_WRAP_ENTRYPOINT_MODE="vars" \
     TOOLBOX_DOCKER_ENV_VARS="-e TOOLBOX_WRAP_ENTRYPOINT_MODE" \
     TOOLBOX_DOCKER_RUN_EXEC_METHOD="toolbox_run" \
-      toolbox_docker_exec "${1}")
+    TOOLBOX_EXEC_LOG_LEVEL_TITLE="DEBUG" \
+    TOOLBOX_EXEC_LOG_LEVEL_CMD="DEBUG" \
+    toolbox_docker_exec)
   echo "${env_vars}" > "${generated_env_file}"
 
   _log TRACE "End '_toolbox_wrap_generate_env_vars_file' function with args: $*"
