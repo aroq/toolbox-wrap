@@ -41,7 +41,21 @@ case "$TOOLBOX_WRAP_ENTRYPOINT_MODE" in
     echo "TOOLBOX_TOOL_PATH=\"${TOOLBOX_TOOL_PATH}\"";;
   run)
     shift
+
+    _log DEBUG "Check if hook exists: toolbox/hooks/before"
+    if [[ -f "toolbox/hooks/before" ]]; then
+      _log DEBUG "Execute hook: toolbox/hooks/before $*"
+      toolbox/hooks/before "$@"
+    fi
+
     _log DEBUG "Execute tool: ${TOOLBOX_TOOL_PATH} $*"
-    ${TOOLBOX_TOOL_PATH} "$@";;
+    ${TOOLBOX_TOOL_PATH} "$@"
+
+    _log DEBUG "Check if hook exists: toolbox/hooks/after"
+    if [[ -f "toolbox/hooks/after" ]]; then
+      _log DEBUG "Execute hook: toolbox/hooks/after $*"
+      toolbox/hooks/after "$@"
+    fi
+    ;;
 esac
 
