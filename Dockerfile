@@ -21,4 +21,6 @@ COPY templates /toolbox/toolbox-wrap/
 
 COPY /entrypoint.sh /entrypoint.sh
 
+ENV TOOLBOX_UTILS_DIR /toolbox/toolbox-utils
+
 ENTRYPOINT ["/entrypoint.sh"]
