@@ -42,19 +42,35 @@ case "$TOOLBOX_WRAP_ENTRYPOINT_MODE" in
   run)
     shift
 
-    _log DEBUG "Check if hook exists: toolbox/hooks/before"
+    _log DEBUG "Check if hooks exist: toolbox/hooks/before"
     if [[ -f "toolbox/hooks/before" ]]; then
       _log DEBUG "Execute hook: toolbox/hooks/before $*"
       toolbox/hooks/before "$@"
     fi
 
+    if [[ -d "toolbox/hooks/before" ]]; then
+      for f in toolbox/hooks/before/*
+      do
+        _log DEBUG "Execute hook: ${f} $*"
+        ${f} "$@"
+      done
+    fi
+
     _log DEBUG "Execute tool: ${TOOLBOX_TOOL_PATH} $*"
     ${TOOLBOX_TOOL_PATH} "$@"
 
-    _log DEBUG "Check if hook exists: toolbox/hooks/after"
+    _log DEBUG "Check if hooks exist: toolbox/hooks/after"
     if [[ -f "toolbox/hooks/after" ]]; then
       _log DEBUG "Execute hook: toolbox/hooks/after $*"
       toolbox/hooks/after "$@"
+    fi
+
+    if [[ -d "toolbox/hooks/after" ]]; then
+      for f in toolbox/hooks/after/*
+      do
+        _log DEBUG "Execute hook: ${f} $*"
+        ${f} "$@"
+      done
     fi
     ;;
 esac
