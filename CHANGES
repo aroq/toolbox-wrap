@@ -1,3 +1,6 @@
+Version 0.1.26:
+ - Refactor toolbox_wrap
+
 Version 0.1.25:
  - Update utils to v0.1.5
 
