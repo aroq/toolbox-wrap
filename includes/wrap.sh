@@ -2,34 +2,54 @@
 
 function toolbox_wrap_exec() {
   _log TRACE "Start 'toolbox_wrap_exec' function with args: $*"
+  toolbox_exec_hook "toolbox_wrap_exec" "before"
 
-  TOOLBOX_DOCKER_SKIP=${TOOLBOX_DOCKER_SKIP:-false}
-
-  if [ -f /.dockerenv ]; then
-    echo "Inside docker already, setting TOOLBOX_DOCKER_SKIP to true"
-    TOOLBOX_DOCKER_SKIP=true
-  fi
+  TOOLBOX_TOOL=${TOOLBOX_TOOL:-${1}}
+  TOOLBOX_TOOL_PATH=${TOOLBOX_TOOL_PATH:-}
+  TOOLBOX_TOOL_DIRS=${TOOLBOX_TOOL_DIRS:-toolbox}
 
   if [ ! "${TOOLBOX_DOCKER_SKIP}" == "true" ]; then
     _toolbox_wrap_prepare_env_vars "${1}"
+  else
+    if [ ! -f "${TOOLBOX_TOOL}" ]; then
+    IFS=" "
+    for i in $(echo "$TOOLBOX_TOOL_DIRS" | sed "s/,/ /g")
+    do
+      _log DEBUG "Check if tool exists at path: ${i}/${TOOLBOX_TOOL}"
+      if [[ -f "${i}/${TOOLBOX_TOOL}" ]]; then
+        TOOLBOX_TOOL_PATH="${i}/${TOOLBOX_TOOL}"
+        break
+      fi
+    done
+    fi
+
+    if [[ -z ${TOOLBOX_TOOL_PATH} ]]; then
+      _log ERROR "TOOLBOX_TOOL_PATH: ${TOOLBOX_TOOL_PATH} NOT FOUND!"
+      exit 1
+    fi
   fi
 
   toolbox_docker_exec "$@"
 
+  toolbox_exec_hook "toolbox_wrap_exec" "after"
   _log TRACE "End 'toolbox_wrap_exec' function"
 }
 
 function _toolbox_wrap_prepare_env_vars() {
   _log TRACE "Start '_toolbox_wrap_prepare_env_vars' function with args: $*"
 
-  toolbox_docker_add_env_var_file_from_prefix "TOOLBOX_"
+  TOOLBOX_DOCKER_ENTRYPOINT=${TOOLBOX_DOCKER_ENTRYPOINT-}
 
-  local generated_env_file
-  generated_env_file="$(_toolbox_wrap_generate_env_vars_file "$@")"
-  TOOLBOX_TOOL_PATH=$(toolbox_util_read_var_from_env_file TOOLBOX_TOOL_PATH "${generated_env_file}")
-  toolbox_docker_add_env_var_file "${generated_env_file}" "Variables generated from the variant command"
+  if [ -z "${TOOLBOX_DOCKER_ENTRYPOINT}" ]; then
+    local generated_env_file
+    generated_env_file="$(_toolbox_wrap_generate_env_vars_file "$@")"
+    TOOLBOX_TOOL_PATH=$(toolbox_util_read_var_from_env_file TOOLBOX_TOOL_PATH "${generated_env_file}")
+    toolbox_docker_add_env_var_file "${generated_env_file}" "Variables generated from the variant command"
+  fi
 
-  toolbox_docker_add_env_var_file "${TOOLBOX_TOOL_PATH}.env"
+  if [ ! -z "${TOOLBOX_TOOL_PATH}" ]; then
+    toolbox_docker_add_env_var_file "${TOOLBOX_TOOL_PATH}.env"
+  fi
 
   _log TRACE "End '_toolbox_wrap_prepare_env_vars' function"
 }
