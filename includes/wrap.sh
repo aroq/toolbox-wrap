@@ -4,29 +4,11 @@ function toolbox_wrap_exec() {
   _log TRACE "Start 'toolbox_wrap_exec' function with args: $*"
   toolbox_exec_hook "toolbox_wrap_exec" "before"
 
-  TOOLBOX_TOOL=${TOOLBOX_TOOL:-${1}}
-  TOOLBOX_TOOL_PATH=${TOOLBOX_TOOL_PATH:-}
-  TOOLBOX_TOOL_DIRS=${TOOLBOX_TOOL_DIRS:-toolbox}
-
   if [ ! "${TOOLBOX_DOCKER_SKIP}" == "true" ]; then
     _toolbox_wrap_prepare_env_vars "${1}"
+    toolbox_docker_exec "$@"
   else
-    if [ ! -f "${TOOLBOX_TOOL}" ]; then
-    IFS=" "
-    for i in $(echo "$TOOLBOX_TOOL_DIRS" | sed "s/,/ /g")
-    do
-      _log DEBUG "Check if tool exists at path: ${i}/${TOOLBOX_TOOL}"
-      if [[ -f "${i}/${TOOLBOX_TOOL}" ]]; then
-        TOOLBOX_TOOL_PATH="${i}/${TOOLBOX_TOOL}"
-        break
-      fi
-    done
-    fi
-
-    if [[ -z ${TOOLBOX_TOOL_PATH} ]]; then
-      _log ERROR "TOOLBOX_TOOL_PATH: ${TOOLBOX_TOOL_PATH} NOT FOUND!"
-      exit 1
-    fi
+    toolbox_exec_tool "$@"
   fi
 
   toolbox_docker_exec "$@"
@@ -72,3 +54,4 @@ function _toolbox_wrap_generate_env_vars_file() {
   _log TRACE "End '_toolbox_wrap_generate_env_vars_file' function with args: $*"
   echo "${generated_env_file}"
 }
+
