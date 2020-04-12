@@ -2,7 +2,7 @@ config:
   toolbox-wrap:
     params:
       template: toolbox/deps/toolbox-wrap/templates/run.tpl
-      image: aroq/toolbox-wrap:0.1.33
+      image: aroq/toolbox-wrap:0.1.34
       tool_dirs:
       - toolbox/deps/toolbox-docker
       - toolbox/deps/toolbox-wrap
