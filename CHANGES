@@ -1,3 +1,6 @@
+Version 0.1.36:
+ - Fix Dockerfile errors
+
 Version 0.1.35:
  - Update exec method
 
