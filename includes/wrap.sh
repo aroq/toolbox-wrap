@@ -2,7 +2,6 @@
 
 function toolbox_wrap_exec() {
   _log TRACE "Start 'toolbox_wrap_exec' function with args: $*"
-  toolbox_exec_hook "toolbox_wrap_exec" "before"
 
   if [ ! "${TOOLBOX_DOCKER_SKIP}" == "true" ]; then
     _toolbox_wrap_prepare_env_vars "${1}"
@@ -13,7 +12,6 @@ function toolbox_wrap_exec() {
 
   toolbox_docker_exec "$@"
 
-  toolbox_exec_hook "toolbox_wrap_exec" "after"
   _log TRACE "End 'toolbox_wrap_exec' function"
 }
 

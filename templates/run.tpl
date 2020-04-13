@@ -31,8 +31,6 @@ export TOOLBOX_TOOL="tools/${TOOLBOX_TOOL_NAME}"
 . "{{ getenv "TOOLBOX_DEPS_DIR" "toolbox/deps" }}/toolbox-docker/includes/docker.sh"
 . "{{ getenv "TOOLBOX_DEPS_DIR" "toolbox/deps" }}/toolbox-wrap/includes/wrap.sh"
 
-if [ $# -eq 0 ]; then
-  toolbox_wrap_exec "${TOOLBOX_TOOL}"
-else
-  toolbox_wrap_exec "${TOOLBOX_TOOL}" "${@}"
-fi
+TOOLBOX_EXEC_SUBSHELL=false
+toolbox_exec_handler "toolbox_wrap_exec" "$@"
+TOOLBOX_EXEC_SUBSHELL=true
