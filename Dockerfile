@@ -18,8 +18,6 @@ RUN mkdir -p /toolbox && \
 
 RUN mkdir -p /toolbox/toolbox-wrap
 COPY templates /toolbox/toolbox-wrap/templates
-COPY hooks /toolbox/toolbox-wrap/hooks
-COPY mounts /toolbox/toolbox-wrap/mounts
 
 COPY /entrypoint.sh /entrypoint.sh
 
