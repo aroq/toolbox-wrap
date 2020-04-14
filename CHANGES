@@ -1,3 +1,6 @@
+Version 0.1.39:
+ - Add toolbox-exec:v0.1.4 into image
+
 Version 0.1.38:
  - Update entrypoint includes
 
