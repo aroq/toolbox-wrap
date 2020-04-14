@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1090
 # shellcheck disable=SC1091
 
 # Set strict bash mode
 set -euo pipefail
 
-. /toolbox/toolbox-utils/includes/log.sh
-. /toolbox/toolbox-utils/includes/util.sh
-. /toolbox/toolbox-exec/includes/exec.sh
+. "${TOOLBOX_DEPS_DIR}"/toolbox-utils/includes/log.sh
+. "${TOOLBOX_DEPS_DIR}"/toolbox-utils/includes/util.sh
+. "${TOOLBOX_DEPS_DIR}"/toolbox-exec/includes/exec.sh
 
 TOOLBOX_TOOL=${TOOLBOX_TOOL:-${1}}
 TOOLBOX_TOOL_PATH=${TOOLBOX_TOOL_PATH:-}
