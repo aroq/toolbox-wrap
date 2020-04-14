@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC1091
+
 # Set strict bash mode
 set -euo pipefail
 
 . /toolbox/toolbox-utils/includes/log.sh
+. /toolbox/toolbox-utils/includes/util.sh
+. /toolbox/toolbox-exec/includes/exec.sh
 
 TOOLBOX_TOOL=${TOOLBOX_TOOL:-${1}}
 TOOLBOX_TOOL_PATH=${TOOLBOX_TOOL_PATH:-}
@@ -14,18 +18,8 @@ _log TRACE "entrypoint.sh: Inside docker (aroq/toolbox-wrap)"
 _log DEBUG "TOOLBOX_TOOL: ${TOOLBOX_TOOL}"
 _log DEBUG "TOOLBOX_TOOL_DIRS: ${TOOLBOX_TOOL_DIRS}"
 
-if [ ! -f "${TOOLBOX_TOOL}" ]; then
-IFS=" "
-for i in $(echo "$TOOLBOX_TOOL_DIRS" | sed "s/,/ /g")
-do
-  _log DEBUG "Check if tool exists at path: ${i}/${TOOLBOX_TOOL}"
-  if [[ -f "${i}/${TOOLBOX_TOOL}" ]]; then
-    TOOLBOX_TOOL_PATH="${i}/${TOOLBOX_TOOL}"
-    break
-  fi
-done
-fi
 
+TOOLBOX_TOOL_PATH=$(toolbox_exec_find_tool "${TOOLBOX_TOOL}" "${TOOLBOX_TOOL_PATH}")
 if [[ -z ${TOOLBOX_TOOL_PATH} ]]; then
   _log ERROR "TOOLBOX_TOOL_PATH: ${TOOLBOX_TOOL_PATH} NOT FOUND!"
   exit 1
@@ -50,4 +44,3 @@ case "$TOOLBOX_WRAP_ENTRYPOINT_MODE" in
     toolbox_exec_hook "toolbox_docker_entrypoint_run" "after"
     ;;
 esac
-

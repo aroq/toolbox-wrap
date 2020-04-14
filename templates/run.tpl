@@ -32,5 +32,5 @@ export TOOLBOX_TOOL="tools/${TOOLBOX_TOOL_NAME}"
 . "{{ getenv "TOOLBOX_DEPS_DIR" "toolbox/deps" }}/toolbox-wrap/includes/wrap.sh"
 
 TOOLBOX_EXEC_SUBSHELL=false
-toolbox_exec_handler "toolbox_wrap_exec" "$@"
+toolbox_exec_handler "toolbox_wrap_exec" "${TOOLBOX_TOOL}" "$@"
 TOOLBOX_EXEC_SUBSHELL=true
