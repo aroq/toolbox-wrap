@@ -15,7 +15,7 @@ TOOLBOX_TOOL_PATH=${TOOLBOX_TOOL_PATH:-}
 TOOLBOX_TOOL_DIRS=${TOOLBOX_TOOL_DIRS:-toolbox}
 TOOLBOX_WRAP_ENTRYPOINT_MODE=${TOOLBOX_WRAP_ENTRYPOINT_MODE:-run}
 
-_log TRACE "entrypoint.sh: Inside docker (aroq/toolbox-wrap)"
+_log TRACE "entrypoint.sh: Inside docker"
 _log DEBUG "TOOLBOX_TOOL: ${TOOLBOX_TOOL}"
 _log DEBUG "TOOLBOX_TOOL_DIRS: ${TOOLBOX_TOOL_DIRS}"
 
@@ -33,7 +33,8 @@ _log TRACE "$(env)"
 
 case "$TOOLBOX_WRAP_ENTRYPOINT_MODE" in
   vars)
-    echo "TOOLBOX_TOOL_PATH=\"${TOOLBOX_TOOL_PATH}\"";;
+    . /entrypoint.vars.sh
+    ;;
   run)
     shift
 

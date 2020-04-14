@@ -15,12 +15,13 @@ RUN curl --fail -sSL -o fd.tar.gz https://github.com/sharkdp/fd/releases/downloa
 
 RUN mkdir -p /toolbox && \
     git clone -b v0.1.10 --depth=1 --single-branch https://github.com/aroq/toolbox-utils.git /toolbox/toolbox-utils && \
-    git clone -b v0.1.5  --depth=1 --single-branch https://github.com/aroq/toolbox-exec.git /toolbox/toolbox-exec
+    git clone -b v0.1.7  --depth=1 --single-branch https://github.com/aroq/toolbox-exec.git /toolbox/toolbox-exec
 
 RUN mkdir -p /toolbox/toolbox-wrap
 COPY templates /toolbox/toolbox-wrap/templates
 
 COPY /entrypoint.sh /entrypoint.sh
+COPY /entrypoint.vars.sh /entrypoint.vars.sh
 
 ENV TOOLBOX_DEPS_DIR /toolbox
 
