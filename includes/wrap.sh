@@ -7,6 +7,7 @@ function toolbox_wrap_exec() {
     _toolbox_wrap_prepare_env_vars "${1}"
     toolbox_docker_exec "$@"
   else
+    shift
     toolbox_exec_tool "$@"
   fi
 
