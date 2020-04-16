@@ -1,3 +1,6 @@
+Version 0.1.43:
+ - Update exec handling
+
 Version 0.1.42:
  - Add 'shift' before toolbox_exec_tool call
 
