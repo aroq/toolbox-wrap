@@ -3,15 +3,13 @@
 function toolbox_wrap_exec() {
   _log TRACE "Start 'toolbox_wrap_exec' function with args: $*"
 
-  if [ ! "${TOOLBOX_DOCKER_SKIP}" == "true" ]; then
-    _toolbox_wrap_prepare_env_vars "${1}"
-    toolbox_docker_exec "$@"
-  else
+  if [ "${TOOLBOX_EXEC_CONTEXT}" = "HOST" ] || [ "${TOOLBOX_EXEC_CONTEXT}" = "DOCKER_OUTSIDE" ]; then
     shift
-    toolbox_exec_tool "$@"
+    toolbox_exec_handler "toolbox_exec_tool" "$@"
+  else
+    _toolbox_wrap_prepare_env_vars "${1}"
+    toolbox_exec_handler "toolbox_docker_exec" "$@"
   fi
-
-  toolbox_docker_exec "$@"
 
   _log TRACE "End 'toolbox_wrap_exec' function"
 }
@@ -46,6 +44,7 @@ function _toolbox_wrap_generate_env_vars_file() {
     TOOLBOX_DOCKER_ENV_VARS="-e TOOLBOX_WRAP_ENTRYPOINT_MODE" \
     TOOLBOX_DOCKER_RUN_EXEC_METHOD="toolbox_run" \
     TOOLBOX_EXEC_LOG_LEVEL_TITLE="DEBUG" \
+    TOOLBOX_DOCKER_RUN_ARG_ALLOCATE_PSEUDO_TTY=false \
     TOOLBOX_EXEC_LOG_LEVEL_CMD="DEBUG" \
     toolbox_docker_exec)
   echo "${env_vars}" > "${generated_env_file}"
@@ -53,4 +52,3 @@ function _toolbox_wrap_generate_env_vars_file() {
   _log TRACE "End '_toolbox_wrap_generate_env_vars_file' function with args: $*"
   echo "${generated_env_file}"
 }
-
